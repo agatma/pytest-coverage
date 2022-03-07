@@ -58,7 +58,8 @@ class PostPagesTests(PostTestSetUpMixin):
         for reverse_name in PostPagesLocators.templates_context:
             with self.subTest(reverse_name=reverse_name):
                 response = self.authorized_client.get(reverse_name)
-                if reverse_name == reverse('posts:post_detail', kwargs={'post_id': '4242'}):
+                if reverse_name == reverse(
+                        'posts:post_detail', kwargs={'post_id': '4242'}):
                     first_object = response.context['page_obj']
                 else:
                     first_object = response.context['page_obj'][0]
