@@ -1,0 +1,70 @@
+{# templates/about/author.html #}
+
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Об авторе проекта {% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1>Агатанов Мадихан</h1>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <p>Последние 5 лет занимаюсь интернет-рекламой, сейчас работаю Performance-маркетологом в рекламном
+                    агентстве 19/84.
+                    Основные вертикали: жилая недвижимость и образование.</p>
+                <p>Начал изучать Python и анализ данных 1,5 года назад.</p>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <img src="{% static 'img/madikhan.jpeg' %}"
+                     width="400px">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Мои статьи, кейсы и курсы</h2>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                <p><a href="https://habr.com/ru/company/yandex_praktikum/blog/582176/">Как мы с командой от Яндекс
+                    Практикума участвовали в хакатоне по
+                    Data Science и победили </a></p>
+                <p>
+                    <a href="https://vk.com/@bizness_online-netoksichnaya-reklama-v-s2ocsetyah-6-pravil-dlya-targetinga2">Нетоксичная
+                        реклама в соцсетях: 6 правил для таргетинга в myTarget
+                    </a></p>
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
+                <p><a href="https://vk.com/wall-131101936_150316">Нетоксичная реклама в соцсетях: 6 правил для
+                    таргетинга в
+                    ВК</a></p>
+                <p><a href="https://19school84.ru/targetads">Бесплатный курс: таргетированная реклама (20 лекций)</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Контакты для связи</h2>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <p>Телефон: 8-800-555-35-35</p>
+                <p>Почта: <a href="mailto: i@madikhan.ru">i@madikhan.ru</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
