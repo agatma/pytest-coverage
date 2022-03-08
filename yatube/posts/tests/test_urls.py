@@ -1,7 +1,6 @@
-# posts/tests/test_urls.py
 from http import HTTPStatus
 from django.test import Client
-from posts.tests.set_up_tests import PostTestSetUpMixin, PostPagesLocators
+from .set_up_tests import PostTestSetUpMixin, PostPagesLocators
 
 
 class PostURLTests(PostTestSetUpMixin):
@@ -9,8 +8,8 @@ class PostURLTests(PostTestSetUpMixin):
         self.guest_client = Client()
         self.authorized_client = Client()
         self.authorized_client.force_login(PostURLTests.user)
-        self.response_404 = HTTPStatus.NOT_FOUND.value
-        self.response_200 = HTTPStatus.OK.value
+        self.response_404 = HTTPStatus.NOT_FOUND
+        self.response_200 = HTTPStatus.OK
 
     def test_post_urls_for_guest_exists_at_desired_location(self):
         """Проверяем общедоступные страницы."""

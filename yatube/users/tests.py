@@ -1,4 +1,3 @@
-# users/tests.py
 from http import HTTPStatus
 from django import forms
 from django.contrib.auth import get_user_model
@@ -33,7 +32,7 @@ class UsersURLTests(TestCase):
         self.guest_client = Client()
         self.authorized_client = Client()
         self.authorized_client.force_login(UsersURLTests.user)
-        self.response_200 = HTTPStatus.OK.value
+        self.response_200 = HTTPStatus.OK
 
     def test_users_url_available_for_guest_user(self):
         """Проверка доступности адресов приложения users."""
@@ -53,7 +52,7 @@ class UsersURLTests(TestCase):
 class UsersViewsTests(TestCase):
     def setUp(self):
         self.guest_client = Client()
-        self.response_200 = HTTPStatus.OK.value
+        self.response_200 = HTTPStatus.OK
 
     def test_users_views_accessible_by_name(self):
 

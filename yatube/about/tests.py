@@ -1,4 +1,3 @@
-# about/tests.py
 from http import HTTPStatus
 from django.test import TestCase, Client
 from django.urls import reverse
@@ -19,8 +18,7 @@ templates_reverse_url = {
 class AboutSetUpMixin(TestCase):
     def setUp(self):
         self.guest_client = Client()
-        self.response_404 = HTTPStatus.NOT_FOUND.value
-        self.response_200 = HTTPStatus.OK.value
+        self.response_200 = HTTPStatus.OK
 
 
 class AboutStaticURLTests(AboutSetUpMixin):

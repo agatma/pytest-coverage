@@ -1,4 +1,3 @@
-# posts/tests/test_urls.py
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -33,24 +32,24 @@ class PostLocators:
 
 
 class PostPagesLocators:
-    GUEST_PAGES = [
+    GUEST_PAGES = (
         '/', '/group/new_test_group/', '/profile/auth/', '/posts/4242/',
-    ]
+    )
     PAGE_404 = '/test_404_page/'
-    CREATE_EDIT_PAGES = ['/create/', '/posts/4242/edit/']
+    CREATE_EDIT_PAGES = ('/create/', '/posts/4242/edit/')
     POST_CREATE = reverse('posts:post_create')
     POST_PROFILE = reverse('posts:profile', kwargs={'username': 'auth'})
     POST_EDIT = reverse('posts:post_edit', kwargs={'post_id': '4242'})
     POST_DETAIL = reverse('posts:post_detail', kwargs={'post_id': '4242'})
-    templates_url_names = [
+    templates_url_names = (
         ('posts/index.html', '/'),
         ('posts/group_list.html', '/group/new_test_group/'),
         ('posts/profile.html', '/profile/auth/'),
         ('posts/post_detail.html', '/posts/4242/'),
         ('posts/create_post.html', '/create/'),
         ('posts/create_post.html', '/posts/4242/edit/'),
-    ]
-    templates = [
+    )
+    templates = (
         ('posts/index.html', reverse('posts:index')),
         ('posts/group_list.html',
          reverse('posts:group_posts', kwargs={'slug': 'new_test_group'})),
@@ -61,7 +60,7 @@ class PostPagesLocators:
         ('posts/create_post.html', reverse('posts:post_create')),
         ('posts/create_post.html',
          reverse('posts:post_edit', kwargs={'post_id': '4242'})),
-    ]
+    )
     templates_1_post = (
         reverse('posts:index'),
         reverse('posts:group_posts', kwargs={'slug': 'new_test_group'}),
@@ -110,3 +109,19 @@ class PostTestSetUpMixin(TestCase):
                 else:
                     response = self.guest_client.get(url)
                     self.assertEqual(response.status_code, self.response_200, )
+
+    def check_correct_meta(self, dict_name, verbose=False, help_text=False):
+        for value, expected in dict_name.items():
+            with self.subTest(value=value):
+                if verbose:
+                    self.assertEqual(
+                        self.post._meta.get_field(value).verbose_name, expected
+                    )
+                elif help_text:
+                    self.assertEqual(
+                        self.post._meta.get_field(value).help_text, expected
+                    )
+                else:
+                    raise Exception(
+                        'Мета параметр не определен или определен неверно'
+                    )

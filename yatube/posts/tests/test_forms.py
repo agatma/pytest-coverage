@@ -1,7 +1,6 @@
-# posts/tests/test_forms.py
 from django.test import Client
-from posts.models import Post
-from posts.tests.set_up_tests import (
+from ..models import Post
+from .set_up_tests import (
     PostTestSetUpMixin, PostPagesLocators, GroupLocators, PostLocators
 )
 
@@ -14,7 +13,6 @@ class PostCreateFormTests(PostTestSetUpMixin):
     def test_posts_forms_create_post(self):
         """Валидная форма создает запись в Post."""
         post_count = Post.objects.count()
-        # Подготавливаем данные для передачи в форму
         form_data = {
             'text': PostLocators.TEXT_FOR_FORM,
             'group': GroupLocators.PK,

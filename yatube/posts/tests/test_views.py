@@ -1,10 +1,8 @@
-# posts/tests/test_views.py
 from django import forms
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
-from django.urls import reverse
-from posts.models import Post, Group
-from posts.tests.set_up_tests import (
+from ..models import Post, Group
+from .set_up_tests import (
     PostTestSetUpMixin, PostPagesLocators, PostLocators,
     UserLocators, GroupLocators
 )
@@ -58,19 +56,14 @@ class PostPagesTests(PostTestSetUpMixin):
         for reverse_name in PostPagesLocators.templates_context:
             with self.subTest(reverse_name=reverse_name):
                 response = self.authorized_client.get(reverse_name)
-                if reverse_name == reverse(
-                        'posts:post_detail', kwargs={'post_id': '4242'}):
+                if reverse_name == PostPagesLocators.POST_DETAIL:
                     first_object = response.context['page_obj']
                 else:
                     first_object = response.context['page_obj'][0]
-                task_text_0 = first_object.text
-                task_author_0 = first_object.author.username
-                task_pk_0 = first_object.pk
-                task_group_0 = first_object.group.title
-                self.assertEqual(task_text_0, PostLocators.TEXT)
-                self.assertEqual(task_author_0, UserLocators.USERNAME)
-                self.assertEqual(task_pk_0, int(PostLocators.PK))
-                self.assertEqual(task_group_0, GroupLocators.TITLE)
+                self.assertEqual(first_object.text, PostLocators.TEXT)
+                self.assertEqual(first_object.author.username, UserLocators.USERNAME)
+                self.assertEqual(first_object.pk, int(PostLocators.PK))
+                self.assertEqual(first_object.group.title, GroupLocators.TITLE)
 
 
 class PaginatorViewsTest(TestCase):
