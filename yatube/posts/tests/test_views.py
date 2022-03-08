@@ -61,9 +61,13 @@ class PostPagesTests(PostTestSetUpMixin):
                 else:
                     first_object = response.context['page_obj'][0]
                 self.assertEqual(first_object.text, PostLocators.TEXT)
-                self.assertEqual(first_object.author.username, UserLocators.USERNAME)
+                self.assertEqual(
+                    first_object.author.username, UserLocators.USERNAME
+                )
                 self.assertEqual(first_object.pk, int(PostLocators.PK))
-                self.assertEqual(first_object.group.title, GroupLocators.TITLE)
+                self.assertEqual(
+                    first_object.group.title, GroupLocators.TITLE
+                )
 
 
 class PaginatorViewsTest(TestCase):

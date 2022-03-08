@@ -8,7 +8,9 @@ class PostModelTest(PostTestSetUpMixin):
 
     def test_post_models_have_correct_object_names(self):
         """Проверяем, что у модели Post корректно работает __str__."""
-        self.assertEqual(str(self.post), self.post.text[:settings.POST_SYMBOLS], )
+        self.assertEqual(
+            str(self.post), self.post.text[:settings.POST_SYMBOLS],
+        )
 
     def test_post_models_have_correct_verbose_names(self):
         field_verbose = {
