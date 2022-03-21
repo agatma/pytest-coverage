@@ -1,6 +1,5 @@
-{# templates/posts/post_detail.html #}
-
 {% extends 'base.html' %}
+{% load thumbnail %}
 {% block title %} Пост {{ page_obj.text|truncatechars:30 }} {% endblock %}
 {% block content %}
     <div class="row">
@@ -29,9 +28,18 @@
             </ul>
         </aside>
         <article class="col-12 col-md-9">
+            {% thumbnail page_obj.image "1611x720" crop="center" upscale=True as im %}
+                <img class="card-img my-2" src="{{ im.url }}">
+            {% endthumbnail %}
             <p>
                 {{ page_obj.text }}
             </p>
+            {% if user.is_authenticated and user == page_obj.author %}
+                <a class="btn btn-primary" href={% url 'posts:post_edit' page_obj.id %}>
+                    редактировать запись
+                </a>
+            {% endif %}
+
         </article>
     </div>
 {% endblock content %}

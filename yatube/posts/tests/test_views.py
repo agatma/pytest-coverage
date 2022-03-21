@@ -68,6 +68,7 @@ class PostPagesTests(PostTestSetUpMixin):
                 self.assertEqual(
                     first_object.group.title, GroupLocators.TITLE
                 )
+                self.assertEqual(first_object.text, PostLocators.TEXT)
 
 
 class PaginatorViewsTest(TestCase):

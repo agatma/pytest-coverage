@@ -31,6 +31,7 @@ class PostLocators:
     EDIT_FORM_TEXT = 'Edit_new_text'
 
 
+
 class PostPagesLocators:
     GUEST_PAGES = (
         '/', '/group/new_test_group/', '/profile/auth/', '/posts/4242/',

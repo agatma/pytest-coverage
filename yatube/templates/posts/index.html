@@ -1,6 +1,5 @@
-{# templates/posts/index.html #}
-
 {% extends 'base.html' %}
+{% load thumbnail %}
 {% block title %} Главная страница {% endblock %}
 {% block content %}
     {% for post in page_obj %}
@@ -12,16 +11,24 @@
                 Дата публикации: {{ post.pub_date|date:"d E Y" }}
             </li>
         </ul>
+        {% thumbnail post.image "1611x720" crop="center" upscale=True as im %}
+            <img class="card-img my-2" src="{{ im.url }}">
+        {% endthumbnail %}
         <p>{{ post.text }}</p>
 
-        <a href="{% url 'posts:post_detail' post.id %}">подробная информация </a>
-        <br>
-        {% if post.group %}
-            <a href="{% url 'posts:group_posts' post.group.slug %}">все записи группы</a>
+        <a class="btn btn-link" href="{% url 'posts:post_detail' post.id %}">подробная информация </a>
+        {% if user.is_authenticated and user == post.author %}
+            <a class="btn btn-link" href={% url 'posts:post_edit' post.id %}>
+                редактировать запись
+            </a>
         {% endif %}
         <br>
-        <a href="{% url 'posts:profile' post.author.username %}">все посты пользователя
+        {% if post.group %}
+            <a class="btn btn-link" href="{% url 'posts:group_posts' post.group.slug %}">все записи группы</a>
+        {% endif %}
+        <a class="btn btn-link" href="{% url 'posts:profile' post.author.username %}">все посты пользователя
         </a>
+
         {% if not forloop.last %}
             <hr>{% endif %}
     {% endfor %}

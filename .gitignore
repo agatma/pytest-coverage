@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+# Media
+yatube/media
+
+
 # Distribution / packaging
 .Python
 build/
@@ -109,6 +113,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
 
 # Spyder project settings
 .spyderproject

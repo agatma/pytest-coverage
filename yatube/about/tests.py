@@ -2,12 +2,12 @@ from http import HTTPStatus
 from django.test import TestCase, Client
 from django.urls import reverse
 
-pages = ['/about/author/', '/about/tech/']
+pages = ('/about/author/', '/about/tech/')
 templates_url = {
     'about/author.html': '/about/author/',
     'about/tech.html': '/about/tech/'
 }
-reverse_url_names = ['about:author', 'about:tech']
+reverse_url_names = ('about:author', 'about:tech')
 
 templates_reverse_url = {
     'about/author.html': 'about:author',
