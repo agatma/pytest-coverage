@@ -31,7 +31,7 @@ class UsersURLTests(TestCase):
     def setUp(self):
         self.guest_client = Client()
         self.authorized_client = Client()
-        self.authorized_client.force_login(UsersURLTests.user)
+        self.authorized_client.force_login(self.user)
         self.response_200 = HTTPStatus.OK
 
     def test_users_url_available_for_guest_user(self):

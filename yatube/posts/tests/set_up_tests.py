@@ -46,12 +46,19 @@ class PostLocators:
             b'\x02\x4c\x01\x00\x3b'
     )
     GIF_FOR_TEST_NAME = 'gif_for_test.gif'
+    GIF_FOR_TEST_NAME_VIEWS = 'gif_for_test2.gif'
     GIF_FOR_TEST_TYPE = 'image/gif'
     IMAGE_UPLOADED = SimpleUploadedFile(
         name=GIF_FOR_TEST_NAME,
         content=GIF_FOR_TEST,
         content_type=GIF_FOR_TEST_TYPE,
     )
+    IMAGE_UPLOADED_VIEWS = SimpleUploadedFile(
+        name=GIF_FOR_TEST_NAME_VIEWS,
+        content=GIF_FOR_TEST,
+        content_type=GIF_FOR_TEST_TYPE,
+    )
+
 
 
 class PostPagesLocators:
@@ -121,7 +128,7 @@ class PostTestSetUpMixin(TestCase):
             text=PostLocators.TEXT,
             pk=PostLocators.PK,
             group=cls.group,
-            image=PostLocators.IMAGE_UPLOADED,
+            image=PostLocators.IMAGE_UPLOADED_VIEWS,
         )
 
         cls.comment = Comment.objects.create(

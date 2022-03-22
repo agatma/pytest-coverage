@@ -7,7 +7,7 @@ class PostURLTests(PostTestSetUpMixin):
     def setUp(self):
         self.guest_client = Client()
         self.authorized_client = Client()
-        self.authorized_client.force_login(PostURLTests.user)
+        self.authorized_client.force_login(self.user)
         self.response_404 = HTTPStatus.NOT_FOUND
         self.response_200 = HTTPStatus.OK
 

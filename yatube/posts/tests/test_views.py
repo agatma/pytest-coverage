@@ -11,10 +11,11 @@ User = get_user_model()
 
 
 class PostPagesTests(PostTestSetUpMixin):
+
     def setUp(self):
         self.guest_client = Client()
         self.authorized_client = Client()
-        self.authorized_client.force_login(PostPagesTests.user)
+        self.authorized_client.force_login(self.user)
 
     def test_post_views_pages_uses_correct_templates(self):
         """URL-адрес всех страниц в views использует соответствующий шаблон
@@ -69,7 +70,7 @@ class PostPagesTests(PostTestSetUpMixin):
                     first_object.group.title, GroupLocators.TITLE
                 )
                 self.assertEqual(first_object.text, PostLocators.TEXT)
-                self.assertEqual(first_object.image, f'posts/{PostLocators.GIF_FOR_TEST_NAME}', )
+                self.assertEqual(first_object.image, f'posts/{PostLocators.GIF_FOR_TEST_NAME_VIEWS}', )
 
 
 class PaginatorViewsTest(TestCase):
@@ -109,7 +110,7 @@ class CommentTests(PostTestSetUpMixin):
     def setUp(self):
         self.guest_client = Client()
         self.authorized_client = Client()
-        self.authorized_client.force_login(PostPagesTests.user)
+        self.authorized_client.force_login(self.user)
 
     def test_comment_availability(self):
         """Проверяем отображение комментария для любого пользователя

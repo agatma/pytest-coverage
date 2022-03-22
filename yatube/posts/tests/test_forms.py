@@ -1,5 +1,5 @@
 from django.test import Client
-from ..models import Post
+from ..models import Post, Comment
 from .set_up_tests import (
     PostTestSetUpMixin, PostPagesLocators, GroupLocators, PostLocators
 )
@@ -8,11 +8,11 @@ from .set_up_tests import (
 class PostCreateFormTests(PostTestSetUpMixin):
     def setUp(self):
         self.authorized_client = Client()
-        self.authorized_client.force_login(PostCreateFormTests.user)
+        self.authorized_client.force_login(self.user)
 
     def test_posts_forms_create_post(self):
         """Валидная форма создает запись в Post."""
-        post_count = Post.objects.count()
+        posts_count = Post.objects.count()
         form_data = {
             'text': PostLocators.TEXT_FOR_FORM,
             'group': GroupLocators.PK,
@@ -24,8 +24,7 @@ class PostCreateFormTests(PostTestSetUpMixin):
             follow=True
         )
         self.assertRedirects(response, PostPagesLocators.POST_PROFILE)
-        self.assertEqual(Post.objects.count(), post_count + 1)
-
+        self.assertEqual(Post.objects.count(), posts_count + 1)
         self.assertTrue(
             Post.objects.filter(
                 text=PostLocators.TEXT_FOR_FORM,
@@ -36,7 +35,7 @@ class PostCreateFormTests(PostTestSetUpMixin):
 
     def test_posts_forms_edit_post(self):
         """Форма редактирует запись в Post."""
-        tasks_count = Post.objects.count()
+        posts_count = Post.objects.count()
         form_data = {
             'text': PostLocators.EDIT_FORM_TEXT,
             'group': GroupLocators.PK,
@@ -47,36 +46,35 @@ class PostCreateFormTests(PostTestSetUpMixin):
             follow=True
         )
         self.assertRedirects(response, PostPagesLocators.POST_DETAIL)
-        self.assertEqual(Post.objects.count(), tasks_count)
+        self.assertEqual(Post.objects.count(), posts_count)
         response = self.authorized_client.get(PostPagesLocators.POST_DETAIL)
         text_post_object = response.context['page_obj'].text
         self.assertEqual(text_post_object, PostLocators.EDIT_FORM_TEXT)
 
 
-# class CommentCreateFormTests(PostTestSetUpMixin):
-#     def setUp(self):
-#         self.authorized_client = Client()
-#         self.authorized_client.force_login(PostCreateFormTests.user)
-#
-#     def test_posts_forms_create_post(self):
-#         """Валидная форма создает комментарий к посту."""
-#         post = Post.objects.get(pk=PostLocators.PK)
-#         comments_count = post.comments.count()
-#         form_data = {
-#             'text': PostLocators.COMMENT_POST_TEXT_FORM,
-#         }
-#         response = self.authorized_client.post(
-#             PostPagesLocators.ADD_COMMENT,
-#             data=form_data,
-#             follow=True
-#         )
-#         self.assertRedirects(response, PostPagesLocators.POST_DETAIL)
-#         self.assertEqual(post.comments.count(), comments_count + 1)
-#
-#         self.assertTrue(
-#             Post.objects.filter(
-#                 text=PostLocators.TEXT_FOR_FORM,
-#                 group=PostCreateFormTests.group,
-#                 image=f'posts/{PostLocators.GIF_FOR_TEST_NAME}',
-#             ).exists()
-#         )
+class CommentCreateFormTests(PostTestSetUpMixin):
+    def setUp(self):
+        self.authorized_client = Client()
+        self.authorized_client.force_login(self.user)
+
+    def test_comment_on_post(self):
+        """Валидная форма создает комментарий к посту."""
+        comments_count = Comment.objects.filter(post=PostLocators.PK).count()
+        form_data = {
+            'text': PostLocators.COMMENT_POST_TEXT_FORM,
+        }
+        self.authorized_client.post(
+            PostPagesLocators.ADD_COMMENT,
+            data=form_data,
+            follow=True
+        )
+        self.assertEqual(
+            Comment.objects.filter(post=PostLocators.PK).count(),
+            comments_count + 1
+        )
+        self.assertTrue(
+            Comment.objects.filter(
+                text=PostLocators.COMMENT_POST_TEXT_FORM,
+            ).exists()
+        )
+
