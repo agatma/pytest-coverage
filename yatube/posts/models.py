@@ -58,3 +58,34 @@ class Post(models.Model):
 
     def __str__(self):
         return self.text[:settings.POST_SYMBOLS]
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name='comments',
+        help_text='Пост, к которому относиться комментарий',
+        verbose_name='Комментарий',
+
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        related_name='comments',
+        help_text='Автор комментария',
+        verbose_name='Автор комментария',
+    )
+    text = models.TextField(help_text='Введите текст комментария',
+                            verbose_name='Содержание комментария')
+    created = models.DateTimeField(
+        auto_now_add=True,
+        help_text='Дата публикации комментария (автоматически определяется)',
+        verbose_name='Дата публикации комментария',
+    )
+
+    def __str__(self):
+        return self.text

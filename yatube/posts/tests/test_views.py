@@ -69,6 +69,7 @@ class PostPagesTests(PostTestSetUpMixin):
                     first_object.group.title, GroupLocators.TITLE
                 )
                 self.assertEqual(first_object.text, PostLocators.TEXT)
+                self.assertEqual(first_object.image, f'posts/{PostLocators.GIF_FOR_TEST_NAME}', )
 
 
 class PaginatorViewsTest(TestCase):
@@ -102,3 +103,18 @@ class PaginatorViewsTest(TestCase):
             with self.subTest(reverse_name=reverse_name):
                 response = self.client.get(reverse_name + '?page=2')
                 self.assertEqual(len(response.context['page_obj']), 3)
+
+
+class CommentTests(PostTestSetUpMixin):
+    def setUp(self):
+        self.guest_client = Client()
+        self.authorized_client = Client()
+        self.authorized_client.force_login(PostPagesTests.user)
+
+    def test_comment_availability(self):
+        """Проверяем отображение комментария для любого пользователя
+        Комментарий создан в set_up_tests"""
+        response = self.guest_client.get(PostPagesLocators.POST_DETAIL)
+        text_initial = response.context['comments'][0]
+        self.assertEqual(str(text_initial), PostLocators.COMMENT_POST_TEXT)
+
