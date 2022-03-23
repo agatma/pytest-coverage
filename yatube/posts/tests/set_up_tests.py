@@ -15,6 +15,8 @@ User = get_user_model()
 
 class UserLocators:
     USERNAME = 'auth'
+    USERNAME2 = 'auth2'
+    USERNAME3 = 'auth3'
 
 
 class GroupLocators:
@@ -72,6 +74,9 @@ class PostPagesLocators:
     POST_EDIT = reverse('posts:post_edit', kwargs={'post_id': '4242'})
     POST_DETAIL = reverse('posts:post_detail', kwargs={'post_id': '4242'})
     ADD_COMMENT = reverse('posts:add_comment', kwargs={'post_id': '4242'})
+    FOLLOW_USER_AUTHOR = reverse('posts:profile_follow', kwargs={'username': 'auth2'})
+    UNFOLLOW_USER_AUTHOR = reverse('posts:profile_unfollow', kwargs={'username': 'auth2'})
+    FOLLOW_INDEX = reverse('posts:follow_index')
     templates_url_names = (
         ('posts/index.html', '/'),
         ('posts/group_list.html', '/group/new_test_group/'),
@@ -122,7 +127,6 @@ class PostTestSetUpMixin(TestCase):
             slug=GroupLocators.SLUG,
             description=GroupLocators.DESCRIPTION,
         )
-
         cls.post = Post.objects.create(
             author=cls.user,
             text=PostLocators.TEXT,
@@ -130,7 +134,6 @@ class PostTestSetUpMixin(TestCase):
             group=cls.group,
             image=PostLocators.IMAGE_UPLOADED_VIEWS,
         )
-
         cls.comment = Comment.objects.create(
             post=cls.post,
             author=cls.user,
