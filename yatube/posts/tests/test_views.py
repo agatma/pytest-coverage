@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from django.core.cache import cache
 from django.test import Client, TestCase
 from ..models import Post, Group
 from .set_up_tests import (
@@ -11,7 +12,6 @@ User = get_user_model()
 
 
 class PostPagesTests(PostTestSetUpMixin):
-
     def setUp(self):
         self.guest_client = Client()
         self.authorized_client = Client()
@@ -72,6 +72,21 @@ class PostPagesTests(PostTestSetUpMixin):
                 self.assertEqual(first_object.text, PostLocators.TEXT)
                 self.assertEqual(first_object.image, f'posts/{PostLocators.GIF_FOR_TEST_NAME_VIEWS}', )
 
+    def test_post_index_cache_check(self):
+        initial_response = self.authorized_client.get(PostPagesLocators.POST_INDEX).content
+        Post.objects.get(pk=PostLocators.PK).delete()
+        cache_response = self.authorized_client.get(PostPagesLocators.POST_INDEX).content
+        self.assertEqual(
+            initial_response,
+            cache_response
+        )
+        cache.clear()
+        response_after_clear_cashe = self.authorized_client.get(PostPagesLocators.POST_INDEX).content
+        self.assertNotEqual(
+            initial_response,
+            response_after_clear_cashe,
+        )
+
 
 class PaginatorViewsTest(TestCase):
     @classmethod
@@ -118,4 +133,5 @@ class CommentTests(PostTestSetUpMixin):
         response = self.guest_client.get(PostPagesLocators.POST_DETAIL)
         text_initial = response.context['comments'][0]
         self.assertEqual(str(text_initial), PostLocators.COMMENT_POST_TEXT)
+
 

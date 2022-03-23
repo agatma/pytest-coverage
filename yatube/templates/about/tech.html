@@ -1,8 +1,10 @@
 {# templates/about/tech.html #}
 
 {% extends 'base.html' %}
+{% load cache %}
 {% block title %} Технологии {% endblock %}
 {% block content %}
+    {% cache 600 tech %}
     <div class="row">
         <h1>Вот что я умею</h1>
         <aside class="col-12 col-md-3">
@@ -19,4 +21,5 @@
             </ul>
         </aside>
     </div>
+    {% endcache %}
 {% endblock content %}

@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render, get_object_or_404
 from .forms import PostForm, CommentForm
-from .models import Post, Group, Comment
+from .models import Post, Group
 
 User = get_user_model()
 
@@ -113,4 +113,3 @@ def add_comment(request, post_id):
         comment.post = post
         comment.save()
     return redirect('posts:post_detail', post_id=post_id)
-

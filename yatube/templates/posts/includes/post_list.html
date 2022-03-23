@@ -1,0 +1,19 @@
+{% load thumbnail %}
+<ul>
+    <li>Автор: {{ post.author.get_full_name }}</li>
+    <li>Дата публикации: {{ post.pub_date|date:"d E Y" }}</li>
+</ul>
+{% thumbnail post.image "1611x720" crop="center" upscale=True as im %}
+    <img class="card-img my-2" src="{{ im.url }}">
+{% endthumbnail %}
+<p>{{ post.text }}</p>
+<a class="btn btn-link" href="{% url 'posts:post_detail' post.id %}">подробная информация </a>
+{% if user.is_authenticated and user == post.author %}
+    <a class="btn btn-link" href={% url 'posts:post_edit' post.id %}>
+        редактировать запись</a>
+{% endif %}<br>
+{% if post.group %}
+    <a class="btn btn-link" href="{% url 'posts:group_posts' post.group.slug %}">все записи группы</a>
+{% endif %}
+<a class="btn btn-link" href="{% url 'posts:profile' post.author.username %}">все посты пользователя</a>
+{% if not forloop.last %}<hr>{% endif %}

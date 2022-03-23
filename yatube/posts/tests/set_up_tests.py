@@ -67,6 +67,7 @@ class PostPagesLocators:
     )
     PAGE_404 = '/test_404_page/'
     CREATE_EDIT_PAGES = ('/create/', '/posts/4242/edit/')
+    POST_INDEX = reverse('posts:index')
     POST_CREATE = reverse('posts:post_create')
     POST_PROFILE = reverse('posts:profile', kwargs={'username': 'auth'})
     POST_EDIT = reverse('posts:post_edit', kwargs={'post_id': '4242'})

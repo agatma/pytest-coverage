@@ -54,11 +54,12 @@ class PostCreateFormTests(PostTestSetUpMixin):
 
 class CommentCreateFormTests(PostTestSetUpMixin):
     def setUp(self):
+        self.guest_client = Client()
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
 
-    def test_comment_on_post(self):
-        """Валидная форма создает комментарий к посту."""
+    def test_comment_comment_authorized_client(self):
+        """Валидная форма создает комментарий только для авторизованного пользователя."""
         comments_count = Comment.objects.filter(post=PostLocators.PK).count()
         form_data = {
             'text': PostLocators.COMMENT_POST_TEXT_FORM,
@@ -77,4 +78,14 @@ class CommentCreateFormTests(PostTestSetUpMixin):
                 text=PostLocators.COMMENT_POST_TEXT_FORM,
             ).exists()
         )
+        self.guest_client.post(
+            PostPagesLocators.ADD_COMMENT,
+            data=form_data,
+            follow=True
+        )
+        self.assertEqual(
+            Comment.objects.filter(post=PostLocators.PK).count(),
+            comments_count + 1
+        )
+
 

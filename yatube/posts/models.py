@@ -25,6 +25,7 @@ class Post(models.Model):
                             verbose_name='Содержание поста')
     pub_date = models.DateTimeField(
         auto_now_add=True,
+        db_index=True,
         help_text='Дата публикации поста (автоматически определяется)',
         verbose_name='Дата публикации поста',
     )
@@ -83,6 +84,7 @@ class Comment(models.Model):
                             verbose_name='Содержание комментария')
     created = models.DateTimeField(
         auto_now_add=True,
+        db_index=True,
         help_text='Дата публикации комментария (автоматически определяется)',
         verbose_name='Дата публикации комментария',
     )
