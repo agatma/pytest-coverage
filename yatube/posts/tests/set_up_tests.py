@@ -39,11 +39,11 @@ class PostLocators:
     TEXT_FOR_FORM = 'Тестовый текст формы'
     EDIT_FORM_TEXT = 'Edit_new_text'
     GIF_FOR_TEST = (
-            b'\x47\x49\x46\x38\x39\x61\x01\x00'
-            b'\x01\x00\x00\x00\x00\x21\xf9\x04'
-            b'\x01\x0a\x00\x01\x00\x2c\x00\x00'
-            b'\x00\x00\x01\x00\x01\x00\x00\x02'
-            b'\x02\x4c\x01\x00\x3b'
+        b'\x47\x49\x46\x38\x39\x61\x01\x00'
+        b'\x01\x00\x00\x00\x00\x21\xf9\x04'
+        b'\x01\x0a\x00\x01\x00\x2c\x00\x00'
+        b'\x00\x00\x01\x00\x01\x00\x00\x02'
+        b'\x02\x4c\x01\x00\x3b'
     )
     GIF_FOR_TEST_NAME = 'gif_for_test.gif'
     GIF_FOR_TEST_NAME_VIEWS = 'gif_for_test2.gif'
@@ -58,7 +58,6 @@ class PostLocators:
         content=GIF_FOR_TEST,
         content_type=GIF_FOR_TEST_TYPE,
     )
-
 
 
 class PostPagesLocators:
@@ -154,7 +153,9 @@ class PostTestSetUpMixin(TestCase):
                     self.assertEqual(response.status_code, self.response_200, )
                 else:
                     response = self.guest_client.get(url)
-                    self.assertEqual(response.status_code, self.response_200, )
+                    self.assertEqual(response.status_code, self.response_200,
+                                     f'url - {url} код {response.status_code}',
+                                     )
 
     def check_correct_meta(self, dict_name, verbose=False, help_text=False):
         for value, expected in dict_name.items():
