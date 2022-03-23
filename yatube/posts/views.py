@@ -2,9 +2,9 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404, get_list_or_404
 from .forms import PostForm, CommentForm
-from .models import Post, Group
+from .models import Post, Group, Follow
 
 User = get_user_model()
 
@@ -113,3 +113,26 @@ def add_comment(request, post_id):
         comment.post = post
         comment.save()
     return redirect('posts:post_detail', post_id=post_id)
+
+
+@login_required
+def follow_index(request):
+    """Напишите view-функцию страницы, куда будут выведены посты авторов,
+    на которых подписан текущий пользователь.
+    """
+    authors_id = request.user.follower.all().values_list('author', flat=True)
+    posts = Post.objects.filter(author_id__in=authors_id)
+    context = {'page_obj': posts}
+    return render(request, 'posts/follow.html', context)
+
+
+# @login_required
+# def profile_follow(request, username):
+#     # Подписаться на автора
+#     ...
+#
+#
+# @login_required
+# def profile_unfollow(request, username):
+#     # Дизлайк, отписка
+#     ...

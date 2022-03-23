@@ -91,3 +91,29 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text
+
+
+class Follow(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='follower',
+        verbose_name='подписчик',
+        help_text='Пользователь, который подписывается.',
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='following',
+        verbose_name='автор',
+        help_text='Пользователь, на которого подписываются.',
+    )
+
+    class Meta:
+        ordering = ('-author',)
+
+    def __str__(self):
+        return (f'user - {self.user} '
+                f'author - {self.author}')
